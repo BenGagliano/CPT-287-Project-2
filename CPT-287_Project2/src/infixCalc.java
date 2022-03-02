@@ -137,6 +137,9 @@ public static int eval(Stack<Item> itemStk) {
 				rightNum = Integer.parseInt(operandStk.pop().toString());
 				leftNum = Integer.parseInt(operandStk.pop().toString());//pull the top two Operands of the integers stack
 				newNum = new Operand(((Operator)operatorStk.pop()).calc(leftNum, rightNum));
+				if (newNum.toString().equals("Divided by 0")) {
+					return Integer.MAX_VALUE;
+				}
 				operandStk.offer(newNum);//calculates the result of leftNum (operand) rightNum and pushes it onto the integers stack
 			}
 			operatorStk.pop();//remove the "("
@@ -147,6 +150,9 @@ public static int eval(Stack<Item> itemStk) {
 				rightNum = Integer.parseInt(operandStk.pop().toString());
 				leftNum = Integer.parseInt(operandStk.pop().toString());
 				newNum = new Operand(((Operator)operatorStk.pop()).calc(leftNum, rightNum));
+				if (newNum.toString().equals("Divided by 0")) {
+					return Integer.MAX_VALUE;
+				}
 				operandStk.offer(newNum);//calculate the operatorStk's next Operator with the integer stacks next two Operands. put the result in a Operand object and push it onto the operandStk
 			}
 			operatorStk.offer(((Operator)itemStk.pop()));//otherwise put the source stacks operator on the operatorStk
