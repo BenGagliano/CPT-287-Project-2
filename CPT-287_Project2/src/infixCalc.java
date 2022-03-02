@@ -16,9 +16,13 @@ public static void main(String[] args) throws FileNotFoundException {
 		infixEquation = (fScan.nextLine().replaceAll(" ", ""));//removes the white space from the line before assigning it to infixEquation
 		Stack stringStack =	parseEquation(convToStack(shortenAndOr(infixEquation)));//turns && and || into & and |, converts the string to a stack,
 		                                                                            //parses that stack into a stack with integers and operators in the form of strings
-		int x = eval(stringStack);
-		System.out.println(x);
-		System.out.println();
+		if (!stringStack.isEmpty()) {
+            int x = eval(stringStack);
+            if (x != Integer.MAX_VALUE) {
+            	System.out.println(x);
+            }
+            System.out.println();
+        }
 	} 
 	fScan.close();
 	
@@ -123,10 +127,10 @@ public static int eval(Stack<Item> itemStk) {
 	
 	while (!itemStk.isEmpty()) {//while there are Operands and Operators in the itemStack
 		if (Character.isDigit((itemStk.peek().toString()).charAt(0))) {//if the top is a Operand
-				operandStk.offer(itemStk.pop());//put that Operand in the integers stack
+				operandStk.offer((Operand) itemStk.pop());//put that Operand in the integers stack
 			
 		} else if (itemStk.peek().toString().equals("(")) {//if the top is a "(" Operator 
-			operatorStk.offer(itemStk.pop());//put it on the operands stack
+			operatorStk.offer((Operator) itemStk.pop());//put it on the operands stack
 			
 		} else if (itemStk.peek().toString().equals(")")) {//if the top is a ")" Operator
 			while (!operatorStk.peek().toString().equals("(")) {//while the top of the operators stack is not a "("
@@ -154,6 +158,10 @@ public static int eval(Stack<Item> itemStk) {
 		rightNum = Integer.parseInt(operandStk.pop().toString());
 		leftNum = Integer.parseInt(operandStk.pop().toString());
 		newNum = new Operand(((Operator)operatorStk.pop()).calc(leftNum, rightNum));//pop two integers and a symbol and calculate the result
+		if (newNum.toString().equals("Divided by 0")) {
+			return Integer.MAX_VALUE;
+		}
+			
 		operandStk.offer(newNum);//push result onto operandStk
 	}
 	
