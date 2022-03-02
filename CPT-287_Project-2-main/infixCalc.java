@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class infixCalc {
 	
-	static final String INPUT_FILE_TXT = "src/inputFile.";//path to the input file
+	static final String INPUT_FILE_TXT = "src/inputFile";//path to the input file
 	static Stack nums = new Stack(); // Stack for all numbers
 	static Stack operands = new Stack(); // Stack for everything less numbers
 	
